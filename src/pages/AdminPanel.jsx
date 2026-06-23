@@ -53,7 +53,7 @@ export default function AdminPanel() {
           setNewSiteCoords({ lat: 7.8833, lng: -67.4667 });
           setEditingSite(null);
         }}
-        className="fixed top-20 left-72 bg-blue-500 text-white px-3 py-1 rounded z-[2000]"
+        className="fixed top-20 left-72 bg-blue-500 text-white px-3 py-1 rounded-sm z-2000"
       >
         Mostrar formulario (test)
       </button>

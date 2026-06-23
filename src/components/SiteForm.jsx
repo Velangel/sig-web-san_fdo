@@ -183,7 +183,7 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
       <img
         src={URL.createObjectURL(file)}
         alt="preview"
-        className="h-20 w-32 object-cover rounded"
+        className="h-20 w-32 object-cover rounded-sm"
       />
       <button
         type="button"
@@ -215,7 +215,7 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full border rounded p-2 text-sm"
+            className="w-full border rounded-sm p-2 text-sm"
           />
         </div>
 
@@ -229,7 +229,7 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
             max={45}
             min={0}
             onChange={(e) => setTemperature(e.target.value)}
-            className="w-full border rounded p-2 text-sm"
+            className="w-full border rounded-sm p-2 text-sm"
           />
         </div>
 
@@ -258,7 +258,7 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
             <div className="flex flex-wrap gap-2">
               {existingPhotos.map((url) => (
                 <div key={url} className="relative">
-                  <img src={url} alt="" className="h-20 w-32 object-cover rounded" />
+                  <img src={url} alt="" className="h-20 w-32 object-cover rounded-sm" />
                   <button
                     type="button"
                     onClick={() => removeExistingPhoto(url)}
@@ -278,7 +278,7 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
             Agregar fotos del sitio
           </label>
           <div className="flex items-center gap-2">
-            <label className="cursor-pointer bg-blue-50 text-blue-700 px-3 py-1.5 rounded text-sm flex items-center gap-1 border border-blue-200">
+            <label className="cursor-pointer bg-blue-50 text-blue-700 px-3 py-1.5 rounded-sm text-sm flex items-center gap-1 border border-blue-200">
               <Upload size={16} />
               Seleccionar archivos
               <input
@@ -301,14 +301,14 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
         <div>
           <h3 className="font-semibold text-lg mb-2">Preguntas del cuestionario</h3>
           {questions.map((q, idx) => (
-            <div key={idx} className="mb-4 p-3 border rounded bg-gray-50">
+            <div key={idx} className="mb-4 p-3 border rounded-sm bg-gray-50">
               <p className="text-sm font-medium mb-1">Pregunta {idx + 1}</p>
               <input
                 type="text"
                 placeholder="Texto de la pregunta"
                 value={q.question_text}
                 onChange={(e) => handleQuestionChange(idx, 'question_text', e.target.value)}
-                className="w-full border rounded p-1.5 text-sm mb-2"
+                className="w-full border rounded-sm p-1.5 text-sm mb-2"
               />
               <div className="grid grid-cols-1 gap-1">
                 <input
@@ -316,26 +316,25 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
                   placeholder="Opción A"
                   value={q.option_a}
                   onChange={(e) => handleQuestionChange(idx, 'option_a', e.target.value)}
-                  className="border rounded p-1 text-sm"
+                  className="border rounded-sm p-1 text-sm"
                 />
                 <input
                   type="text"
                   placeholder="Opción B"
                   value={q.option_b}
                   onChange={(e) => handleQuestionChange(idx, 'option_b', e.target.value)}
-                  className="border rounded p-1 text-sm"
+                  className="border rounded-sm p-1 text-sm"
                 />
                 <input
                   type="text"
                   placeholder="Opción C"
                   value={q.option_c}
                   onChange={(e) => handleQuestionChange(idx, 'option_c', e.target.value)}
-                  className="border rounded p-1 text-sm"
+                  className="border rounded-sm p-1 text-sm"
                 />
               </div>
 
-              {/* SECCIÓN NUEVA: Imágenes para opciones (solo pregunta 3) */}
-              {idx === 2 && (
+              {!hasGreenInfra && idx === 2 && (
                 <div className="mt-2 space-y-2">
                   <p className="text-xs font-medium text-gray-600">Imágenes para cada opción:</p>
                   {['A', 'B', 'C'].map((opt) => (
@@ -345,7 +344,7 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
                         <img
                           src={questions[idx][`image_${opt.toLowerCase()}`]}
                           alt={`Opción ${opt}`}
-                          className="h-10 w-16 object-cover rounded"
+                          className="h-10 w-16 object-cover rounded-sm"
                         />
                       )}
                       <label className="cursor-pointer text-blue-600 text-sm hover:underline flex items-center gap-1">
@@ -374,7 +373,7 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
         <button
           type="submit"
           disabled={uploading}
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:opacity-50"
+          className="w-full bg-green-600 text-white py-2 rounded-sm hover:bg-green-700 disabled:opacity-50"
         >
           {uploading ? 'Guardando...' : site ? 'Actualizar sitio' : 'Crear sitio'}
         </button>

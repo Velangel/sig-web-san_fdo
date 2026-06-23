@@ -67,7 +67,7 @@ export default function Ranking() {
           {ranking.map((item, idx) => (
             <li
               key={item.id}
-              className="flex justify-between p-3 bg-white rounded shadow"
+              className="flex justify-between p-3 bg-white rounded-sm shadow-sm"
             >
               <span className="font-medium">
                 {idx + 1}. {item.name}

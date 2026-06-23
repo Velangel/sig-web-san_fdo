@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 import Questionnaire from './Questionnaire';
+import Lightbox from './Lightbox'; 
 
 export default function SlidePanel({ site, onClose }) {
   const [questions, setQuestions] = useState([]);
-  
+  const [lightboxImage, setLightboxImage] = useState(null);
+  const [lightboxCaption, setLightboxCaption] = useState('');
+    
   useEffect(() => {
     if (site) {
       fetchQuestions(site.id);
@@ -23,6 +26,11 @@ export default function SlidePanel({ site, onClose }) {
     setQuestions(data || []);
   }
   
+  const openLightbox = (url, caption) => {
+    setLightboxImage(url);
+    setLightboxCaption(caption);
+  };
+  
   if (!site) return null;
   
   return (
@@ -39,8 +47,19 @@ export default function SlidePanel({ site, onClose }) {
         {/* Galería de fotos */}
         <div className="flex gap-2 my-4 overflow-x-auto">
           {site.photos?.map((url, idx) => (
-            <img key={idx} src={url} alt={`Foto ${idx+1}`} className="h-32 w-48 object-cover rounded" />
+          <img
+            key={idx}
+            src={url}
+            alt={`Foto ${idx+1}`}
+            className="h-32 w-48 object-cover rounded cursor-pointer hover:opacity-80"
+            onClick={() => openLightbox(url, 'Estado actual del sitio')}
+          />
           ))}
+        <Lightbox
+          imageUrl={lightboxImage}
+          caption={lightboxCaption}
+          onClose={() => setLightboxImage(null)}
+        />
         </div>
         
         <hr className="my-4" />

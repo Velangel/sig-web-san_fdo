@@ -226,6 +226,8 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
             type="number"
             step="0.1"
             value={temperature}
+            max={45}
+            min={0}
             onChange={(e) => setTemperature(e.target.value)}
             className="w-full border rounded p-2 text-sm"
           />

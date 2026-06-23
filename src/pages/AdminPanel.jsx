@@ -47,7 +47,7 @@ export default function AdminPanel() {
         />
       </div>
 
-      {/* Botón de prueba (siempre visible) */}
+      {/* Botón de prueba (siempre visible)
       <button
         onClick={() => {
           setNewSiteCoords({ lat: 7.8833, lng: -67.4667 });
@@ -57,6 +57,7 @@ export default function AdminPanel() {
       >
         Mostrar formulario (test)
       </button>
+      */}
 
       {/* Panel lateral, se muestra al lado del mapa */}
         {panelAbierto && (

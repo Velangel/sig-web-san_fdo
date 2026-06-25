@@ -38,8 +38,10 @@ export default function SlidePanel({ site, onClose }) {
         <button onClick={onClose} className="float-right text-gray-500 hover:text-black">
           <X size={24} />
         </button>
+
+      {/* Contenido con padding extra en móvil */}
+      <div className="p-4 pt-14 md:pt-4 h-full overflow-y-auto">
         <h2 className="text-2xl font-bold mb-2">{site.name}</h2>
-        
         <p className="text-sm text-gray-600">📍 Lat: {site.lat.toFixed(5)}, Lng: {site.lng.toFixed(5)}</p>
         <p className="text-sm">🌡️ Temperatura media: {site.temperature} °C</p>
         
@@ -64,6 +66,7 @@ export default function SlidePanel({ site, onClose }) {
         <hr className="my-4" />
         <h3 className="font-semibold mb-2">📋 Cuestionario</h3>
         <Questionnaire siteId={site.id} questions={questions} />
+    </div>
     </div>
   );
 }

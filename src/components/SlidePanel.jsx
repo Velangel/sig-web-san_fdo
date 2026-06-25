@@ -34,8 +34,7 @@ export default function SlidePanel({ site, onClose }) {
   if (!site) return null;
   
   return (
-    <div className="w-96 bg-white shadow-2xl border-l overflow-y-auto" style={{ height: '100vh' }}>
-      <div className="p-4">
+    <div className="w-96 bg-white shadow-2xl border-l overflow-y-auto p-4" style={{ height: '100vh' }}>
         <button onClick={onClose} className="float-right text-gray-500 hover:text-black">
           <X size={24} />
         </button>
@@ -65,7 +64,6 @@ export default function SlidePanel({ site, onClose }) {
         <hr className="my-4" />
         <h3 className="font-semibold mb-2">📋 Cuestionario</h3>
         <Questionnaire siteId={site.id} questions={questions} />
-      </div>
     </div>
   );
 }

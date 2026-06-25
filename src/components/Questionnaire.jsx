@@ -91,7 +91,7 @@ export default function Questionnaire({ siteId, questions }) {
               {imageToShow && (
                 <div className="mt-3 rounded overflow-hidden border">
                   <div className="bg-green-700 text-white text-xs font-medium px-3 py-1">
-                    Pretensión de mejora
+                    Propuesta de mejora
                   </div>
                   <img
                     src={imageToShow}
@@ -115,7 +115,7 @@ export default function Questionnaire({ siteId, questions }) {
       {/* Lightbox exclusivo para imágenes de mejora */}
       <Lightbox
         imageUrl={lightboxImage}
-        caption="Pretensión de mejora"
+        caption="Propuesta de mejora"
         onClose={() => setLightboxImage(null)}
       />
     </>

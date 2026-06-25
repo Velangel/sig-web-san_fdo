@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { X, Upload } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Upload, Trash2 } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 
 export default function SiteForm({ coords, site, onClose, onSave }) {
@@ -10,6 +10,7 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
   const [existingPhotos, setExistingPhotos] = useState(site?.photos || []);
   const [newPhotoFiles, setNewPhotoFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
 
   // Preguntas con posibles imágenes existentes
   const [questions, setQuestions] = useState(() => {
@@ -37,6 +38,16 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
   const [newOptionImages, setNewOptionImages] = useState({
     3: { A: null, B: null, C: null }
   });
+
+  // Limpiar imágenes de opciones si se marca infraestructura verde
+  useEffect(() => {
+    if (hasGreenInfra) {
+      setQuestions(prev => prev.map(q =>
+        q.order_num === 3 ? { ...q, image_a: null, image_b: null, image_c: null } : q
+      ));
+      setNewOptionImages({ 3: { A: null, B: null, C: null } });
+    }
+  }, [hasGreenInfra]);
 
   const handleOptionImageChange = (orderNum, option, file) => {
     setNewOptionImages(prev => ({
@@ -174,6 +185,37 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
       alert('Ocurrió un error al guardar.');
     } finally {
       setUploading(false);
+    }
+  };
+
+  // Función para eliminar el sitio actual
+  const handleDelete = async () => {
+    if (!site?.id) return;
+
+    const confirmar = window.confirm('¿Estás seguro de eliminar este sitio? Se borrarán también todas sus fotos y preguntas.');
+    if (!confirmar) return;
+
+    try {
+      // Eliminar las preguntas asociadas
+      const { error: errorPreguntas } = await supabase
+        .from('questions')
+        .delete()
+        .eq('site_id', site.id);
+      if (errorPreguntas) throw errorPreguntas;
+
+      // Eliminar el sitio
+      const { error: errorSitio } = await supabase
+        .from('sites')
+        .delete()
+        .eq('id', site.id);
+      if (errorSitio) throw errorSitio;
+
+      // Cerrar formulario y refrescar el mapa
+      onClose();
+      onSave();
+    } catch (error) {
+      console.error('Error al eliminar:', error);
+      setDeleteError('No se pudo eliminar el sitio. Revisa la consola.');
     }
   };
 
@@ -377,6 +419,22 @@ export default function SiteForm({ coords, site, onClose, onSave }) {
         >
           {uploading ? 'Guardando...' : site ? 'Actualizar sitio' : 'Crear sitio'}
         </button>
+
+        {/* Botón de eliminar (solo si se está editando un sitio existente) */}
+        {site && (
+          <div className="pt-4 border-t mt-6">
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="w-full bg-red-600 text-white py-2 rounded-sm hover:bg-red-700 flex items-center justify-center gap-2"
+            >
+              <Trash2 size={18} /> Eliminar este sitio
+            </button>
+            {deleteError && (
+              <p className="text-red-500 text-sm mt-2">{deleteError}</p>
+            )}
+          </div>
+        )}
       </form>
     </div>
   );

@@ -1,12 +1,25 @@
 @import 'tailwindcss';
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+/* Fuente Google Sans Flex */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,116.1,1..1000&display=swap');
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
+/* Configuración de tema (Tailwind v4) */
+@theme {
+  --font-family-sans: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Estilo base: todo el cuerpo usa Medium 500 */
+@layer base {
+  html,
+  body {
+    font-family: var(--font-family-sans);
+    font-weight: 400;
+  }
+}
+
+/*
+  Compatibilidad con el cambio de color de borde en Tailwind v4.
+  Esto ya lo tenías, lo dejamos.
 */
 @layer base {
   *,
@@ -21,4 +34,9 @@
 ::selection {
     background-color: #3A522C;
     color: white;
+}
+
+.leaflet-top.leaflet-left {
+  left: auto;
+  right: 10px;
 }
